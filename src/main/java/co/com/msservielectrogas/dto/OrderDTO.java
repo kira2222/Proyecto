@@ -1,9 +1,9 @@
 package co.com.msservielectrogas.dto;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
-import co.com.msservielectrogas.entity.Clients;
 import co.com.msservielectrogas.enums.EStatus;
 import lombok.Data;
 
@@ -18,6 +18,10 @@ public class OrderDTO {
 	private Long totalCharged;
     private String clientName;
     private Long clientId;
+    
+	private Integer technicianId;
+    private Date scheduleDate;
+    private LocalTime scheduleTime;
     
     private Date createdAt;
     private Date updatedAt;

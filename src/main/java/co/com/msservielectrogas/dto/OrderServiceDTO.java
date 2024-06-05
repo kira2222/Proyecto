@@ -3,6 +3,8 @@ package co.com.msservielectrogas.dto;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import co.com.msservielectrogas.entity.Order;
 import co.com.msservielectrogas.entity.Services;
 import co.com.msservielectrogas.entity.Users;
@@ -18,7 +20,10 @@ public class OrderServiceDTO {
     private Integer serviceId;
     
     private String observations;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime orderServiceDate;
+    
     private Duration duration;
     private EPriority priorityName;
     private Integer priority;

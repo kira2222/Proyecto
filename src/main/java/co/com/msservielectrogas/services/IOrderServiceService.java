@@ -1,33 +1,17 @@
 package co.com.msservielectrogas.services;
 
-import co.com.msservielectrogas.entity.Order;
 import co.com.msservielectrogas.entity.OrderService;
-import co.com.msservielectrogas.entity.Services;
-import co.com.msservielectrogas.entity.Users;
 import co.com.msservielectrogas.dto.OrderServiceDTO;
-import co.com.msservielectrogas.dto.ApiResponseDTO;
-import co.com.msservielectrogas.dto.CreateServiceActivityDTO;
-import co.com.msservielectrogas.dto.UpdateServiceActivityDTO;
-import co.com.msservielectrogas.dto.UserDTO;
 import co.com.msservielectrogas.repository.IOrderServiceRepository;
 import co.com.msservielectrogas.repository.IServicesRepository;
 import co.com.msservielectrogas.repository.IOrderRepository;
 import co.com.msservielectrogas.repository.IUsersRepository;
-import co.com.msservielectrogas.specification.ServiceActivitySpecifications;
-import co.com.msservielectrogas.enums.EClientType;
 import co.com.msservielectrogas.enums.EPriority;
 import co.com.msservielectrogas.enums.EStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class IOrderServiceService {
@@ -53,10 +37,10 @@ public class IOrderServiceService {
         return convertToDTO(orderService);
     }
     
-    public OrderServiceDTO createOrderService(OrderServiceDTO createOrderServiceDTO, Long orderId) {
+    public OrderServiceDTO createOrderService(OrderServiceDTO createOrderServiceDTO, Long orderId, Integer technicianId) {
     	OrderService orderService = new OrderService();
     	
-    	orderService.setOrder(orderRepository.findById(orderId).orElse(null));    		
+    	orderService.setOrder(orderRepository.findById(orderId));    		
     	orderService.setService(serviceRepository.findById(createOrderServiceDTO.getServiceId()).orElse(null));
     	orderService.setObservations(createOrderServiceDTO.getObservations());
     	orderService.setOrderServiceDate(createOrderServiceDTO.getOrderServiceDate());
@@ -64,7 +48,7 @@ public class IOrderServiceService {
     	orderService.setPriority(createOrderServiceDTO.getPriority());
     	orderService.setStatus(createOrderServiceDTO.getStatus());
         orderService.setCreatedAt(LocalDateTime.now());
-    	orderService.setTechnician(usersRepository.findById(createOrderServiceDTO.getTechnicianId()).orElse(null));
+    	orderService.setTechnician(usersRepository.findById(technicianId).orElse(null));
         
     	OrderService savedOrderService = orderServiceRepository.save(orderService);
 

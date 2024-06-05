@@ -3,14 +3,35 @@ package co.com.msservielectrogas.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
+
+import co.com.msservielectrogas.enums.ERoles;
 
 @Data
 public class WarrantyDTO {
     private Long id;
     private String reason;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private Long orderServiceId;
+    
+    public WarrantyDTO() {
+    }
+
+    public WarrantyDTO(String reason, Date startDate, Date endDate, Long orderServiceId) {
+        this.reason = reason;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.orderServiceId = orderServiceId;
+    }
+    
+    public WarrantyDTO(Long id, String reason, Date startDate, Date endDate, Long orderServiceId) {
+        this.id = id;
+        this.reason = reason;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.orderServiceId = orderServiceId;
+    }
 
     public Long getId() {
         return id;
@@ -28,19 +49,19 @@ public class WarrantyDTO {
         this.reason = reason;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

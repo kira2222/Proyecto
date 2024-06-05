@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import co.com.msservielectrogas.entity.Services;
+import co.com.msservielectrogas.entity.Users;
 
 @Repository
 public interface IServicesRepository extends JpaRepository<Services, Integer>{
@@ -23,4 +24,7 @@ public interface IServicesRepository extends JpaRepository<Services, Integer>{
 			+ "	INNER JOIN public.orders_services ON orders_services.services_id = services.id\r\n"
 			+ "	WHERE orders_services.orders_id = :orderId", nativeQuery = true)
 	List<Services> findByOrdersId(Long orderId);
+	
+    @Query("SELECT c FROM Services c WHERE LOWER(c.servicesDescription) LIKE LOWER(CONCAT('%', :search, '%'))")
+    List<Services> searchServices(String search);
 }

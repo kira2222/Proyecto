@@ -3,41 +3,23 @@ package co.com.msservielectrogas.dto;
 import java.util.Date;
 import java.time.LocalTime;
 
-public class SchedulesDTO {
+public class CreateScheduleDTO {
 
-    private Integer id;
     private Date date;
     private LocalTime hour;
     private Long orderId;
     private Integer technicianId;
 
     // Default constructor
-    public SchedulesDTO() {
+    public CreateScheduleDTO() {
     }
 
     // Parameterized constructor
-    public SchedulesDTO(Date date, LocalTime hour, Long orderId, Integer technicianId) {
+    public CreateScheduleDTO(Date date, LocalTime hour, Long orderId, Integer technicianId) {
         this.date = date;
         this.hour = hour;
         this.orderId = orderId;
         this.technicianId = technicianId;
-    }
-
-    public SchedulesDTO(Integer id, Date date, LocalTime hour, Long orderId, Integer technicianId) {
-        this.id = id;
-        this.date = date;
-        this.hour = hour;
-        this.orderId = orderId;
-        this.technicianId = technicianId;
-    }
-
-    // Getters and Setters
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Date getDate() {

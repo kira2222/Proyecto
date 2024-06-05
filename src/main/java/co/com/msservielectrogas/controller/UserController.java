@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.msservielectrogas.dto.ApiResponseDTO;
+import co.com.msservielectrogas.dto.ClientDTO;
 import co.com.msservielectrogas.dto.ResponseDTO;
 import co.com.msservielectrogas.dto.ResponseDataDTO;
 import co.com.msservielectrogas.dto.UserDTO;
@@ -26,7 +27,6 @@ import co.com.msservielectrogas.entity.Users;
 import co.com.msservielectrogas.enums.ERoles;
 import co.com.msservielectrogas.repository.IUsersRepository;
 import co.com.msservielectrogas.services.IUserService;
-import co.com.msservielectrogas.util.ConvertsDtosInEntitys;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
@@ -38,9 +38,6 @@ public class UserController {
 	
     @Autowired
     private IUserService userService;
-	
-	@Autowired
-	private ConvertsDtosInEntitys convertsDtosInEntitys;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -51,6 +48,13 @@ public class UserController {
     public ResponseEntity<ApiResponseDTO<?>> login(@RequestParam String email, @RequestParam String password) {
         ApiResponseDTO<?> response = userService.login(email, password);
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getCode()));
+    }
+    
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> searchUsers(@RequestParam String name) {
+        List<UserDTO> users = userService.searchUsers(name);
+        ApiResponseDTO<List<UserDTO>> response = new ApiResponseDTO<>("Success", HttpStatus.OK.value(), users);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping("/register")

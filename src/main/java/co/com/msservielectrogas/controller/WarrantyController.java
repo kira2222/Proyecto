@@ -1,10 +1,7 @@
 package co.com.msservielectrogas.controller;
 
 import co.com.msservielectrogas.entity.Warranty;
-import co.com.msservielectrogas.dto.WarrantyDTO;
-import co.com.msservielectrogas.entity.OrderService;
 import co.com.msservielectrogas.repository.IWarrantyRepository;
-import co.com.msservielectrogas.repository.IOrderServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +15,6 @@ public class WarrantyController {
 
     @Autowired
     private IWarrantyRepository warrantyRepository;
-
-    @Autowired
-    private IOrderServiceRepository orderServiceRepository;
 
     @GetMapping
     public List<Warranty> getAllWarranties() {
@@ -47,7 +41,7 @@ public class WarrantyController {
             throw new IllegalArgumentException("OrderService not found");
         }
     }
-    */
+
     @PutMapping("/{id}")
     public ResponseEntity<Warranty> updateWarranty(@PathVariable Long id, @RequestBody WarrantyDTO warrantyDTO) {
         Optional<Warranty> warrantyOptional = warrantyRepository.findById(id);
@@ -73,4 +67,5 @@ public class WarrantyController {
             return ResponseEntity.notFound().build();
         }
     }
+        */
 }

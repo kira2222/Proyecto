@@ -2,12 +2,8 @@ package co.com.msservielectrogas.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.*;
-
-import co.com.msservielectrogas.enums.EPriority;
-import co.com.msservielectrogas.enums.EStatus;
 
 @Entity
 @Table(name = "order_services")
@@ -29,8 +25,8 @@ public class OrderService {
     private Duration duration;
     
     private Integer priority;
-    
     private Integer status;
+    
     private LocalDateTime createdAt;
     
     @ManyToOne

@@ -41,8 +41,14 @@ public class Users {
     @Column(nullable = false)
     private Integer role;
     
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
-	private List<Schedules> schedules;
-    
+    public Users() {
     }
+
+    public Users(Integer id, String name, String email, String password, Integer role) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+}

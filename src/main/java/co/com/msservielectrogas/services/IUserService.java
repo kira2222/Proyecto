@@ -1,12 +1,14 @@
 package co.com.msservielectrogas.services;
 
 import co.com.msservielectrogas.entity.Users;
+import co.com.msservielectrogas.entity.Clients;
 import co.com.msservielectrogas.entity.OrderService;
 import co.com.msservielectrogas.entity.ServiceActivity;
 import co.com.msservielectrogas.entity.Services;
 import co.com.msservielectrogas.dto.OrderDTO;
 import co.com.msservielectrogas.dto.OrderServiceDTO;
 import co.com.msservielectrogas.dto.ApiResponseDTO;
+import co.com.msservielectrogas.dto.ClientDTO;
 import co.com.msservielectrogas.dto.ServiceActivityDTO;
 import co.com.msservielectrogas.dto.CreateServiceActivityDTO;
 import co.com.msservielectrogas.dto.UpdateServiceActivityDTO;
@@ -16,7 +18,9 @@ import co.com.msservielectrogas.repository.IUsersRepository;
 import co.com.msservielectrogas.repository.IOrderServiceRepository;
 import co.com.msservielectrogas.repository.IUsersRepository;
 import co.com.msservielectrogas.specification.OrderSpecifications;
+import co.com.msservielectrogas.enums.EClientType;
 import co.com.msservielectrogas.enums.EPriority;
+import co.com.msservielectrogas.enums.ERoles;
 import co.com.msservielectrogas.enums.EStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +58,23 @@ public class IUserService {
         }
     }
     
+    public List<UserDTO> searchUsers(String query) {
+        List<Users> user = userRepository.searchUsers(query);
+        
+        if (user == null) {
+            return null;
+        }
+        
+        return user.stream()
+                      .map(this::convertToDTO)
+                      .collect(Collectors.toList());
+    }
+    
+    public UserDTO getUserById(Integer id) {
+        Optional<Users> userOptional = userRepository.findById(id);
+        return userOptional.map(this::convertToDTO).orElse(null);
+    }
+    
     public ApiResponseDTO<Users> registerUser(UserDTO dto) {
         Users existingUser = userRepository.findByEmail(dto.getEmail());
         if (Objects.nonNull(existingUser)) {
@@ -64,7 +85,7 @@ public class IUserService {
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(dto.getType());
+        user.setRole(dto.getRole());
 
         Users savedUser = userRepository.save(user);
         if (Objects.nonNull(savedUser)) {
@@ -72,6 +93,18 @@ public class IUserService {
         } else {
             return new ApiResponseDTO<>("No se ha podido registrar el Usuario", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
         }
+    }
+    
+    private UserDTO convertToDTO(Users user) {
+    	ERoles roleName = ERoles.values()[user.getRole().intValue()];
+
+        return new UserDTO(
+        		user.getId(),
+        		user.getName(),
+        		user.getEmail(),
+        		roleName,
+        		user.getRole()
+        );
     }
     
  

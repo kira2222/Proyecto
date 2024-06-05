@@ -34,7 +34,6 @@ import co.com.msservielectrogas.entity.Schedules;
 import co.com.msservielectrogas.entity.Users;
 import co.com.msservielectrogas.repository.ISchedulesRepository;
 import co.com.msservielectrogas.repository.IUsersRepository;
-import co.com.msservielectrogas.util.ConvertsDtosInEntitys;
 import co.com.msservielectrogas.util.CreatedExcel;
 
 @RestController
@@ -45,9 +44,6 @@ public class SchedulesController {
 	private ISchedulesRepository repository;
 
 	@Autowired
-	private ConvertsDtosInEntitys convertsDtosInEntitys;
-
-	@Autowired
 	private IUsersRepository usersRepository;
 
 	@Autowired
@@ -55,7 +51,7 @@ public class SchedulesController {
 
 	private ResponseDTO response;
 
-	@GetMapping(value = "/byIdUser", produces = "application/json")
+/*	@GetMapping(value = "/byIdUser", produces = "application/json")
 	public ResponseEntity<?> getCallByOrder(@RequestParam String email) {
 		response = new ResponseDTO();
 		Users users = usersRepository.findByNameOrEmail(null, email);
@@ -199,4 +195,5 @@ public class SchedulesController {
 		ByteArrayInputStream stream = createdExcel.writeExcel(list);
 		IOUtils.copy(stream, response.getOutputStream());
 	}
+	*/
 }
