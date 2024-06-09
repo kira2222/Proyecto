@@ -1,24 +1,20 @@
 package co.com.msservielectrogas.util;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Objects;
 
-import co.com.msservielectrogas.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.com.msservielectrogas.dto.ClientDTO;
-import co.com.msservielectrogas.dto.OrdersDTO;
-import co.com.msservielectrogas.dto.SchedulesDTO;
 import co.com.msservielectrogas.dto.ServicesDTO;
-import co.com.msservielectrogas.dto.UserDTO;
-import co.com.msservielectrogas.dto.ServiceActivityDTO;
 import co.com.msservielectrogas.entity.Clients;
-import co.com.msservielectrogas.entity.Orders;
-import co.com.msservielectrogas.entity.Schedules;
 import co.com.msservielectrogas.entity.Services;
-import co.com.msservielectrogas.entity.Users;
-import co.com.msservielectrogas.entity.ServiceActivity;
+import co.com.msservielectrogas.repository.IClientRepository;
+import co.com.msservielectrogas.repository.IOrderRepository;
+import co.com.msservielectrogas.repository.ISchedulesRepository;
+import co.com.msservielectrogas.repository.IServiceActivityRepository;
+import co.com.msservielectrogas.repository.IServicesRepository;
+import co.com.msservielectrogas.repository.IUsersRepository;
 
 @Service
 public class ConvertsDtosInEntitys {
@@ -42,62 +38,62 @@ public class ConvertsDtosInEntitys {
 	private IServiceActivityRepository serviceActivityRepository;
 
 	public Clients convertClient(ClientDTO clientDTO) {
-		Clients client = new Clients();
-		client.setDocument(clientDTO.getDocument());
-		client.setNames(clientDTO.getNames());
-		client.setAddress(clientDTO.getAddress());
-		client.setEmail(clientDTO.getEmail());
-		client.setPhone(clientDTO.getPhone());
-		client.setPhone1(clientDTO.getPhone1());
-		client.setPhone2(clientDTO.getPhone2());
-		client.setNameOfApplicant(clientDTO.getNameOfApplicant());
-		client.setNumberOrderVendor(clientDTO.getNumberOrderVendor());
-		client.setType(clientDTO.getType().getId());
-		return repository.save(client);
-	}
+        Clients client = new Clients();
+        client.setDocument(clientDTO.getDocument());
+        client.setNames(clientDTO.getNames());
+        client.setAddress(clientDTO.getAddress());
+        client.setEmail(clientDTO.getEmail());
+        client.setPhone(clientDTO.getPhone());
+        client.setPhone1(clientDTO.getPhone1());
+        client.setPhone2(clientDTO.getPhone2());
+        client.setNameOfApplicant(clientDTO.getNameOfApplicant());
+        client.setNumberOrderVendor(clientDTO.getNumberOrderVendor());
+        client.setType(clientDTO.getType()); // Corregido
+        return repository.save(client);
+    }
 
-	public Clients convertClientUpdate(ClientDTO clientDTO, Clients clients) {
-		Clients client = new Clients();
-		client.setId(clients.getId());
-		client.setDocument(
-				clientDTO.getDocument() != clients.getDocument() ? clientDTO.getDocument() : clients.getDocument());
-		client.setNames(clientDTO.getNames() != clients.getNames() ? clientDTO.getNames() : clients.getNames());
-		client.setAddress(
-				clientDTO.getAddress() != clients.getAddress() ? clientDTO.getAddress() : clients.getAddress());
-		client.setEmail(clientDTO.getEmail() != clients.getEmail() ? clientDTO.getEmail() : clients.getEmail());
-		client.setPhone(clientDTO.getPhone() != clients.getPhone() ? clientDTO.getPhone() : clients.getPhone());
-		client.setPhone1(clientDTO.getPhone1() != clients.getPhone1() ? clientDTO.getPhone1() : clients.getPhone1());
-		client.setPhone2(clientDTO.getPhone2() != clients.getPhone2() ? clientDTO.getPhone2() : clients.getPhone2());
-		client.setNameOfApplicant(
-				clientDTO.getNameOfApplicant() != clients.getNameOfApplicant() ? clientDTO.getNameOfApplicant()
-						: clients.getNameOfApplicant());
-		client.setNumberOrderVendor(
-				clientDTO.getNumberOrderVendor() != clients.getNumberOrderVendor() ? clientDTO.getNumberOrderVendor()
-						: clients.getNumberOrderVendor());
-		client.setType(clientDTO.getType() != clients.getType() ? clientDTO.getType() : clients.getType());
-		return repository.save(client);
-	}
+    public Clients convertClientUpdate(ClientDTO clientDTO, Clients clients) {
+        Clients client = new Clients();
+        client.setId(clients.getId());
+        client.setDocument(
+                !Objects.equals(clientDTO.getDocument(), clients.getDocument()) ? clientDTO.getDocument() : clients.getDocument());
+        client.setNames(!Objects.equals(clientDTO.getNames(), clients.getNames()) ? clientDTO.getNames() : clients.getNames());
+        client.setAddress(
+                !Objects.equals(clientDTO.getAddress(), clients.getAddress()) ? clientDTO.getAddress() : clients.getAddress());
+        client.setEmail(!Objects.equals(clientDTO.getEmail(), clients.getEmail()) ? clientDTO.getEmail() : clients.getEmail());
+        client.setPhone(!Objects.equals(clientDTO.getPhone(), clients.getPhone()) ? clientDTO.getPhone() : clients.getPhone());
+        client.setPhone1(!Objects.equals(clientDTO.getPhone1(), clients.getPhone1()) ? clientDTO.getPhone1() : clients.getPhone1());
+        client.setPhone2(!Objects.equals(clientDTO.getPhone2(), clients.getPhone2()) ? clientDTO.getPhone2() : clients.getPhone2());
+        client.setNameOfApplicant(
+                !Objects.equals(clientDTO.getNameOfApplicant(), clients.getNameOfApplicant()) ? clientDTO.getNameOfApplicant()
+                        : clients.getNameOfApplicant());
+        client.setNumberOrderVendor(
+                !Objects.equals(clientDTO.getNumberOrderVendor(), clients.getNumberOrderVendor()) ? clientDTO.getNumberOrderVendor()
+                        : clients.getNumberOrderVendor());
+        client.setType(!Objects.equals(clientDTO.getType(), clients.getType()) ? clientDTO.getType() : clients.getType());
+        return repository.save(client);
+    }
 
-	public Services convertService(ServicesDTO dto) {
-		Services services = new Services();
-		services.setId(dto.getId());
-		services.setServicesType(dto.getServicesType());
-		services.setServicesDescription(dto.getServicesDescription());
-		services.setPrice(dto.getPrice());
-		return servicesRepository.save(services);
-	}
+    public Services convertService(ServicesDTO dto) {
+        Services services = new Services();
+        services.setId(dto.getId());
+        services.setServicesType(dto.getServicesType());
+        services.setServicesDescription(dto.getServicesDescription());
+        services.setPrice(dto.getPrice());
+        return servicesRepository.save(services);
+    }
 
-	public Services convertServiceUpdate(ServicesDTO dto, Services service) {
-		Services services = new Services();
-		services.setId(service.getId());
-		services.setServicesType(
-				dto.getServicesType() != service.getServicesType() ? dto.getServicesType() : service.getServicesType());
-		services.setServicesDescription(
-				dto.getServicesDescription() != service.getServicesDescription() ? dto.getServicesDescription()
-						: service.getServicesDescription());
-		services.setPrice(dto.getPrice() != service.getPrice() ? dto.getPrice() : service.getPrice());
-		return servicesRepository.save(services);
-	}
+    public Services convertServiceUpdate(ServicesDTO dto, Services service) {
+        Services services = new Services();
+        services.setId(service.getId());
+        services.setServicesType(
+                !Objects.equals(dto.getServicesType(), service.getServicesType()) ? dto.getServicesType() : service.getServicesType());
+        services.setServicesDescription(
+                !Objects.equals(dto.getServicesDescription(), service.getServicesDescription()) ? dto.getServicesDescription()
+                        : service.getServicesDescription());
+        services.setPrice(!Objects.equals(dto.getPrice(), service.getPrice()) ? dto.getPrice() : service.getPrice());
+        return servicesRepository.save(services);
+    }
 	/*
 
 	public Orders convertOrdersCreated(OrdersDTO dto) {
