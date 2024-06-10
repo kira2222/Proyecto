@@ -2,7 +2,6 @@ package co.com.msservielectrogas.entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,27 +18,26 @@ public class OrderService {
     @ManyToOne
     @JoinColumn(name = "services_id")
     private Services service;
-    
+
     private String observations;
     private LocalDateTime orderServiceDate;
     private Duration duration;
-    
     private Integer priority;
     private Integer status;
-    
     private LocalDateTime createdAt;
-    
+
     @ManyToOne
     @JoinColumn(name = "technician_id")
     private Users technician;
 
+    // Constructores
     public OrderService() {
     }
 
     public OrderService(Long id) {
         this.id = id;
     }
-    
+
     public OrderService(Long id, Order order, Services service, String observations, LocalDateTime orderServiceDate, Duration duration, Integer priority, Integer status, LocalDateTime createdAt, Users technician) {
         this.id = id;
         this.order = order;
@@ -54,7 +52,7 @@ public class OrderService {
         this.createdAt = LocalDateTime.now();
     }
 
-
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -102,7 +100,7 @@ public class OrderService {
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
-    
+
     public Integer getPriority() {
         return priority;
     }
@@ -110,7 +108,7 @@ public class OrderService {
     public void setPriority(Integer priority) {
         this.priority = priority;
     }
-    
+
     public Integer getStatus() {
         return status;
     }

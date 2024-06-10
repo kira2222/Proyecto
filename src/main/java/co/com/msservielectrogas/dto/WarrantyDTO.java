@@ -1,38 +1,16 @@
 package co.com.msservielectrogas.dto;
 
-import lombok.Data;
-
-import java.time.LocalDate;
 import java.util.Date;
 
-import co.com.msservielectrogas.enums.ERoles;
-
-@Data
 public class WarrantyDTO {
+
     private Long id;
     private String reason;
     private Date startDate;
     private Date endDate;
     private Long orderServiceId;
-    
-    public WarrantyDTO() {
-    }
 
-    public WarrantyDTO(String reason, Date startDate, Date endDate, Long orderServiceId) {
-        this.reason = reason;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.orderServiceId = orderServiceId;
-    }
-    
-    public WarrantyDTO(Long id, String reason, Date startDate, Date endDate, Long orderServiceId) {
-        this.id = id;
-        this.reason = reason;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.orderServiceId = orderServiceId;
-    }
-
+    // Getters and setters
     public Long getId() {
         return id;
     }

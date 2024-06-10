@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+import co.com.msservielectrogas.entity.OrderService;
 import co.com.msservielectrogas.enums.EStatus;
 import lombok.Data;
 
@@ -63,7 +64,6 @@ public class OrderDTO {
     public List<OrderServiceDTO> getOrderServices() {
         return orderServices;
     }
-
     public void setOrderServices(List<OrderServiceDTO> orderServices) {
         this.orderServices = orderServices;
     }
@@ -131,4 +131,5 @@ public class OrderDTO {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+    
 }

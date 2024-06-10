@@ -1,71 +1,67 @@
 package co.com.msservielectrogas.controller;
 
 import co.com.msservielectrogas.entity.Warranty;
-import co.com.msservielectrogas.repository.IWarrantyRepository;
+import co.com.msservielectrogas.services.WarrantyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.time.Month;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/warranties")
+@RequestMapping("/warranties")
 public class WarrantyController {
 
+
+
+
+
+
+
+
+
+
+
     @Autowired
-    private IWarrantyRepository warrantyRepository;
+    private WarrantyService warrantyService;
 
     @GetMapping
     public List<Warranty> getAllWarranties() {
-        return warrantyRepository.findAll();
+        return warrantyService.getAllWarranties();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Warranty> getWarrantyById(@PathVariable Long id) {
-        Optional<Warranty> warranty = warrantyRepository.findById(id);
-        return warranty.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-    /*
-    @PostMapping
-    public Warranty createWarranty(@RequestBody WarrantyDTO warrantyDTO) {
-        Optional<OrderService> orderServiceOptional = orderServiceRepository.findById(warrantyDTO.getOrderServiceId());
-        if (orderServiceOptional.isPresent()) {
-            Warranty warranty = new Warranty();
-            warranty.setReason(warrantyDTO.getReason());
-            warranty.setStartDate(warrantyDTO.getStartDate());
-            warranty.setEndDate(warrantyDTO.getEndDate());
-            warranty.setOrderService(orderServiceOptional.get());
-            return warrantyRepository.save(warranty);
-        } else {
-            throw new IllegalArgumentException("OrderService not found");
-        }
+        return warrantyService.getWarrantyById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/statistics/month")
+    public Map<Month, Long> getWarrantyCountByMonth() {
+        return warrantyService.getWarrantyStatisticsByMonth();
+    }
+
+    @PostMapping
+    public Warranty createWarranty(@RequestBody Warranty warranty) {
+        return warrantyService.saveWarranty(warranty);
+    }
+    
     @PutMapping("/{id}")
-    public ResponseEntity<Warranty> updateWarranty(@PathVariable Long id, @RequestBody WarrantyDTO warrantyDTO) {
-        Optional<Warranty> warrantyOptional = warrantyRepository.findById(id);
-        Optional<OrderService> orderServiceOptional = orderServiceRepository.findById(warrantyDTO.getOrderServiceId());
-        if (warrantyOptional.isPresent() && orderServiceOptional.isPresent()) {
-            Warranty warranty = warrantyOptional.get();
-            warranty.setReason(warrantyDTO.getReason());
-            warranty.setStartDate(warrantyDTO.getStartDate());
-            warranty.setEndDate(warrantyDTO.getEndDate());
-            warranty.setOrderService(orderServiceOptional.get());
-            return ResponseEntity.ok(warrantyRepository.save(warranty));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Warranty> updateWarranty(@PathVariable Long id, @RequestBody Warranty warrantyDetails) {
+        return ResponseEntity.ok(warrantyService.updateWarranty(id, warrantyDetails));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWarranty(@PathVariable Long id) {
-        if (warrantyRepository.existsById(id)) {
-            warrantyRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        warrantyService.deleteWarranty(id);
+        return ResponseEntity.noContent().build();
     }
-        */
+    @GetMapping("/statistics/status")
+    public ResponseEntity<Map<String, Long>> getServiceStatusStatistics() {
+        Map<String, Long> statistics = warrantyService.getServiceStatusStatistics();
+        return ResponseEntity.ok(statistics);
+    }
 }

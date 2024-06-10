@@ -194,4 +194,5 @@ public class OrderServiceDTO {
     public void setTechnicianId(Integer technicianId) {
         this.technicianId = technicianId;
     }
+    
 }

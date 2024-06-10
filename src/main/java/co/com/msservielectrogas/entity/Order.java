@@ -134,4 +134,9 @@ public class Order {
     public void setClient(Clients client) {
         this.client = client;
     }
+
+    public Order orElse(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElse'");
+    }
 }

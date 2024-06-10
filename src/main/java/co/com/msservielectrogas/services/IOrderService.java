@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,7 +117,7 @@ public class IOrderService {
         Schedules schedule = new Schedules();
         schedule.setDate(createOrderDTO.getScheduleDate());
         schedule.setHour(createOrderDTO.getScheduleTime());
-        schedule.setOrders(orderRepository.findById(order.getId()));
+        schedule.setOrders(orderRepository.findById(order.getId()).orElse(null));
         schedule.setUsers(userRepository.findById(user.getId()).orElse(null));
         
         scheduleRepository.save(schedule);
@@ -128,7 +129,7 @@ public class IOrderService {
     }
     
     public OrderDTO getOrderById(Long id) {
-    	Order order = orderRepository.findById(id);
+    	Order order = orderRepository.findById(id).orElse(null);
     	
         if (order == null) {
             return null;
@@ -181,5 +182,28 @@ public class IOrderService {
         orderServiceDTO.setTechnicianName(orderService.getTechnician().getName());
         orderServiceDTO.setTechnicianId(orderService.getTechnician().getId());
         return orderServiceDTO;
+    }
+
+    public Map<String, Long> getServiceStatusStatistics() {
+        List<OrderService> orderServices = orderServiceRepository.findAll();
+
+        return orderServices.stream()
+                .collect(Collectors.groupingBy(
+                        orderService -> getStatusDescription(orderService.getStatus()),
+                        Collectors.counting()
+                ));
+    }
+
+    private String getStatusDescription(int status) {
+        switch (status) {
+            case 0:
+                return "Cancelados";
+            case 1:
+                return "Realizados";
+            case 2:
+                return "Aplazados";
+            default:
+                return "Desconocido";
+        }
     }
 }

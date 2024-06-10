@@ -1,5 +1,60 @@
 package co.com.msservielectrogas.repository;
 
-public class StatisticsRepository {
-    
+import co.com.msservielectrogas.dto.ServiceTypeStatisticsDTO;
+import co.com.msservielectrogas.dto.TechnicianEffectivenessDTO;
+import co.com.msservielectrogas.dto.TechnicianStatisticsDTO;
+import co.com.msservielectrogas.dto.WarrantiesByTechnicianDTO;
+import co.com.msservielectrogas.dto.WarrantiesByTypeDTO;
+import co.com.msservielectrogas.dto.WarrantyStatisticsDTO;
+import co.com.msservielectrogas.entity.OrderService;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface StatisticsRepository extends CrudRepository<OrderService, Integer> {
+
+    @Query("SELECT new co.com.msservielectrogas.dto.TechnicianStatisticsDTO(u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate), COUNT(*)) " +
+           "FROM OrderService os " +
+           "JOIN os.technician u " +
+           "GROUP BY u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate) " +
+           "ORDER BY u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate)")
+    List<TechnicianStatisticsDTO> getTechnicianStatistics();
+
+    @Query("SELECT new co.com.msservielectrogas.dto.WarrantyStatisticsDTO(w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate), COUNT(*)) " +
+           "FROM Warranty w " +
+           "JOIN w.orderService os " +
+           "GROUP BY w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate) " +
+           "ORDER BY w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate)")
+    List<TechnicianStatisticsDTO> getWarrantyTechnicianStatistics();
+
+    @Query("SELECT new co.com.msservielectrogas.dto.WarrantyStatisticsDTO(w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate), COUNT(*)) " +
+           "FROM Warranty w " +
+           "JOIN w.orderService os " +
+           "GROUP BY w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate) " +
+           "ORDER BY w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate)")
+    List<WarrantyStatisticsDTO> getWarrantyStatistics();
+   
+    @Query("SELECT new co.com.msservielectrogas.dto.ServiceTypeStatisticsDTO(MONTH(os.orderServiceDate), s.servicesDescription, COUNT(os.id)) " +
+    "FROM OrderService os " +
+    "JOIN os.service s " +
+    "GROUP BY MONTH(os.orderServiceDate), s.servicesDescription")
+List<ServiceTypeStatisticsDTO> getServiceTypeStatistics();
+@Query("SELECT new co.com.msservielectrogas.dto.TechnicianEffectivenessDTO(u.name, MONTH(os.orderServiceDate), AVG(os.duration)) " +
+           "FROM OrderService os " +
+           "JOIN os.technician u " +
+           "GROUP BY u.name, MONTH(os.orderServiceDate) " +
+           "ORDER BY u.name, MONTH(os.orderServiceDate)")
+    List<TechnicianEffectivenessDTO> getTechnicianEffectivenessStatistics();
+    @Query("SELECT new co.com.msservielectrogas.dto.WarrantiesByTechnicianDTO(t.name, MONTH(w.startDate), COUNT(w.id)) " +
+           "FROM Warranty w " +
+           "JOIN w.orderService os " +
+           "JOIN os.technician t " +
+           "GROUP BY t.name, MONTH(w.startDate)")
+    List<WarrantiesByTechnicianDTO> getWarrantiesByTechnician();
+        @Query("SELECT new co.com.msservielectrogas.dto.WarrantiesByTypeDTO(w.reason, MONTH(w.startDate), COUNT(w)) " +
+           "FROM Warranty w GROUP BY w.reason, MONTH(w.startDate)")
+    List<WarrantiesByTypeDTO> getWarrantiesByType();
 }

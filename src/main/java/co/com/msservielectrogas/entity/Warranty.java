@@ -1,24 +1,29 @@
 package co.com.msservielectrogas.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "warranties")
 public class Warranty {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String reason;
+    private String status;
+    @Temporal(TemporalType.DATE)
     private Date startDate;
+
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     @ManyToOne
     @JoinColumn(name = "order_service_id")
     private OrderService orderService;
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -26,7 +31,13 @@ public class Warranty {
     public void setId(Long id) {
         this.id = id;
     }
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public String getReason() {
         return reason;
     }
