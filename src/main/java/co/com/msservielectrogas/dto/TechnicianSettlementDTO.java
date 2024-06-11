@@ -5,6 +5,7 @@ public class TechnicianSettlementDTO {
     private String name;
     private long totalCharged;
     private String month;
+
     public TechnicianSettlementDTO(String document, String name, long totalCharged, String month) {
         this.document = document;
         this.name = name;
@@ -37,11 +38,21 @@ public class TechnicianSettlementDTO {
         this.totalCharged = totalCharged;
     }
 
-    public String getmonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setmonth(String month) {
+    public void setMonth(String month) {
         this.month = month;
+    }
+
+    @Override
+    public String toString() {
+        return "TechnicianSettlementDTO{" +
+                "document='" + document + '\'' +
+                ", name='" + name + '\'' +
+                ", totalCharged=" + totalCharged +
+                ", month='" + month + '\'' +
+                '}';
     }
 }

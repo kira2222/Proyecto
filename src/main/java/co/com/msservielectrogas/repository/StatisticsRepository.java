@@ -68,9 +68,9 @@ List<ServiceTypeStatisticsDTO> getServiceTypeStatistics();
 List<ServiceReportDTO> getServiceReport();
 
 @Query("SELECT new co.com.msservielectrogas.dto.TechnicianSettlementDTO(u.document, u.name, SUM(o.totalCharged), TO_CHAR(o.createdAt, 'MM-YYYY')) " +
-       "FROM OrderService os " +
-       "JOIN os.order o " +
-       "JOIN os.technician u " +
-       "GROUP BY u.document, u.name, TO_CHAR(o.createdAt, 'MM-YYYY')")
+"FROM OrderService os " +
+"JOIN os.order o " +
+"JOIN os.technician u " +
+"GROUP BY u.document, u.name, TO_CHAR(o.createdAt, 'MM-YYYY')")
 List<TechnicianSettlementDTO> getTechnicianSettlements();
 }

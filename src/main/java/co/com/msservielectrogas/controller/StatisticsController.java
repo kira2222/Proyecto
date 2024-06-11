@@ -106,36 +106,27 @@ public class StatisticsController {
 
     @GetMapping("/technician-settlement")
     public ResponseEntity<byte[]> exportTechnicianSettlementToExcel() throws IOException {
-        List<TechnicianSettlementDTO> settlementData = statisticsService.getTechnicianSettlements();
+        System.out.println("Request received to export technician settlements to Excel");
+        ByteArrayInputStream in = statisticsService.exportTechnicianSettlementsToExcel();
+        System.out.println("Excel file generated successfully");
+        return createExcelResponseEntity(in, "technician_settlement.xlsx");
+    }
 
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Technician Settlement");
-            Row headerRow = sheet.createRow(0);
+    private ResponseEntity<byte[]> createExcelResponseEntity(ByteArrayInputStream in, String fileName) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
-            headerRow.createCell(0).setCellValue("Cédula");
-            headerRow.createCell(1).setCellValue("Nombres");
-            headerRow.createCell(2).setCellValue("Apellidos");
-            headerRow.createCell(3).setCellValue("Total Cobrado");
-            headerRow.createCell(4).setCellValue("Mes");
-
-            int rowNum = 1;
-            for (TechnicianSettlementDTO data : settlementData) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(data.getDocument());
-                row.createCell(3).setCellValue(data.getTotalCharged());
- 
-            }
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            workbook.write(outputStream);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=technician_settlement.xlsx");
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(outputStream.toByteArray());
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = in.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
         }
+
+        System.out.println("Returning the Excel file as response");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(outputStream.toByteArray());
     }
 }
