@@ -18,6 +18,7 @@ public class OrderService {
     @ManyToOne
     @JoinColumn(name = "services_id")
     private Services service;
+    private Double totalCharged;
 
     private String observations;
     private LocalDateTime orderServiceDate;
@@ -131,5 +132,13 @@ public class OrderService {
 
     public void setTechnician(Users technician) {
         this.technician = technician;
+    }
+
+    public Double getTotalCharged() {
+        return totalCharged;
+    }
+
+    public void setTotalCharged(Double totalCharged) {
+        this.totalCharged = totalCharged;
     }
 }

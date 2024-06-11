@@ -13,6 +13,8 @@ public class Users {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String document;
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -73,5 +75,12 @@ public class Users {
 
     public void setRole(Integer role) {
         this.role = role;
+    }
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
     }
 }
