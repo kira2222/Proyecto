@@ -1,56 +1,47 @@
 package co.com.msservielectrogas.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ServiceReportDTO {
-    private String document;
-    private String names;
-    private String nameOfApplicant;
-    private String servicesDescription;
+    private String technicianName;
+    private String clientName;
+    private String observations;
     private long totalCharged;
-    private LocalDateTime orderServiceDate;
+    private Date createdAt;
 
     // Constructor
-    public ServiceReportDTO(String document, String names, String nameOfApplicant, String servicesDescription, long totalCharged, LocalDateTime orderServiceDate) {
-        this.document = document;
-        this.names = names;
-        this.nameOfApplicant = nameOfApplicant;
-        this.servicesDescription = servicesDescription;
+    public ServiceReportDTO(String technicianName, String clientName, String observations, long totalCharged, Date createdAt) {
+        System.out.println("Creating ServiceReportDTO: technicianName=" + technicianName + ", clientName=" + clientName + ", observations=" + observations + ", totalCharged=" + totalCharged + ", createdAt=" + createdAt);
+        this.technicianName = technicianName;
+        this.clientName = clientName;
+        this.observations = observations;
         this.totalCharged = totalCharged;
-        this.orderServiceDate = orderServiceDate;
+        this.createdAt = createdAt;
     }
 
-    // Getters y setters
-    public String getDocument() {
-        return document;
+    // Getters and setters
+    public String getTechnicianName() {
+        return technicianName;
     }
 
-    public void setDocument(String document) {
-        this.document = document;
+    public void setTechnicianName(String technicianName) {
+        this.technicianName = technicianName;
     }
 
-    public String getNames() {
-        return names;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setNames(String names) {
-        this.names = names;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
-    public String getNameOfApplicant() {
-        return nameOfApplicant;
+    public String getObservations() {
+        return observations;
     }
 
-    public void setNameOfApplicant(String nameOfApplicant) {
-        this.nameOfApplicant = nameOfApplicant;
-    }
-
-    public String getServicesDescription() {
-        return servicesDescription;
-    }
-
-    public void setServicesDescription(String servicesDescription) {
-        this.servicesDescription = servicesDescription;
+    public void setObservations(String observations) {
+        this.observations = observations;
     }
 
     public long getTotalCharged() {
@@ -61,11 +52,11 @@ public class ServiceReportDTO {
         this.totalCharged = totalCharged;
     }
 
-    public LocalDateTime getOrderServiceDate() {
-        return orderServiceDate;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setOrderServiceDate(LocalDateTime orderServiceDate) {
-        this.orderServiceDate = orderServiceDate;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

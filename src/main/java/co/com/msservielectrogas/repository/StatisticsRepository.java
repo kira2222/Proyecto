@@ -59,13 +59,14 @@ List<ServiceTypeStatisticsDTO> getServiceTypeStatistics();
         @Query("SELECT new co.com.msservielectrogas.dto.WarrantiesByTypeDTO(w.reason, MONTH(w.startDate), COUNT(w)) " +
            "FROM Warranty w GROUP BY w.reason, MONTH(w.startDate)")
     List<WarrantiesByTypeDTO> getWarrantiesByType();
-    @Query("SELECT new co.com.msservielectrogas.dto.ServiceReportDTO(c.document, c.names, c.nameOfApplicant, s.servicesDescription, o.totalCharged, os.orderServiceDate) " +
+    
+  
+    @Query("SELECT new co.com.msservielectrogas.dto.ServiceReportDTO(u.name, u.name, o.observations, SUM(o.totalCharged), o.createdAt) " +
     "FROM OrderService os " +
     "JOIN os.order o " +
-    "JOIN o.client c " +
-    "JOIN os.service s " +
-    "WHERE os.orderServiceDate BETWEEN '2024-01-01' AND '2024-12-31'")
-List<ServiceReportDTO> getServiceReport();
+    "JOIN os.technician u " +
+    "GROUP BY u.name, o.observations, o.createdAt")
+List<ServiceReportDTO> getServiceReports();
 
 @Query("SELECT new co.com.msservielectrogas.dto.TechnicianSettlementDTO(u.document, u.name, SUM(o.totalCharged), TO_CHAR(o.createdAt, 'MM-YYYY')) " +
 "FROM OrderService os " +

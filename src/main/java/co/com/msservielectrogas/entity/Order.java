@@ -2,46 +2,30 @@ package co.com.msservielectrogas.entity;
 
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import co.com.msservielectrogas.enums.EStatus;
-import lombok.Data;
-
-@Data
 @Entity
-@Table(name = "Orders")
+@Table(name = "orders")
 public class Order {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
+
     @Transient
     private List<OrderService> orderServices;
-	
-	@Column(nullable = true, length = 255)
+
+    @Column(nullable = true, length = 255)
     private String observations;
-	
-	@Column(name = "status") 
+
+    @Column(name = "status")
     private Integer status;
-	
-	@Column(nullable = true)
+
+    @Column(nullable = true)
     private Long totalCharged;
-	
+
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
     private Date createdAt;
@@ -54,13 +38,12 @@ public class Order {
     @JoinColumn(name = "client_id")
     @JsonBackReference
     private Clients client;
-	
-    // Default constructor
+
+    // Constructores
     public Order() {
     }
 
-    // Parameterized constructor
-    public Order(Long id, String observations,Integer status, Long totalCharged, Date createdAt, Date updatedAt, Clients client) {
+    public Order(Long id, String observations, Integer status, Long totalCharged, Date createdAt, Date updatedAt, Clients client) {
         this.id = id;
         this.observations = observations;
         this.status = status;
@@ -70,7 +53,7 @@ public class Order {
         this.client = client;
     }
 
-    // Getters and Setters
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -94,7 +77,7 @@ public class Order {
     public void setObservations(String observations) {
         this.observations = observations;
     }
-    
+
     public Integer getStatus() {
         return status;
     }
@@ -136,7 +119,6 @@ public class Order {
     }
 
     public Order orElse(Object object) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'orElse'");
     }
 }
