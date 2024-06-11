@@ -69,7 +69,7 @@ public ResponseEntity<byte[]> exportServiceReportToExcel() throws IOException {
         Sheet sheet = workbook.createSheet("Service Report");
         Row headerRow = sheet.createRow(0);
 
-        headerRow.createCell(0).setCellValue("Cédula");
+        headerRow.createCell(0).setCellValue(".");
         headerRow.createCell(1).setCellValue("Nombres");
         headerRow.createCell(2).setCellValue("Apellidos");
         headerRow.createCell(3).setCellValue("Tipo de Servicio");
