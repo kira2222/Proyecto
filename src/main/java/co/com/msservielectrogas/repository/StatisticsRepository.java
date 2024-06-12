@@ -11,19 +11,30 @@ import co.com.msservielectrogas.dto.WarrantyStatisticsDTO;
 import co.com.msservielectrogas.entity.OrderService;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface StatisticsRepository extends CrudRepository<OrderService, Integer> {
-
+/* 
     @Query("SELECT new co.com.msservielectrogas.dto.TechnicianStatisticsDTO(u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate), COUNT(*)) " +
            "FROM OrderService os " +
            "JOIN os.technician u " +
            "GROUP BY u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate) " +
            "ORDER BY u.name, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate)")
-    List<TechnicianStatisticsDTO> getTechnicianStatistics();
+    List<TechnicianStatisticsDTO> getTechnicianStatistics();*/
+    @Query("SELECT new co.com.msservielectrogas.dto.TechnicianStatisticsDTO(u.name, FUNCTION('DATE_TRUNC', 'month', os.createdAt), COUNT(*)) " +
+    "FROM OrderService os " +
+    "JOIN os.technician u " +
+    "WHERE os.createdAt >= :startDate AND os.createdAt < :endDate " +
+    "GROUP BY u.name, FUNCTION('DATE_TRUNC', 'month', os.createdAt) " +
+    "ORDER BY u.name, FUNCTION('DATE_TRUNC', 'month', os.createdAt)")
+List<TechnicianStatisticsDTO> getTechnicianStatistics(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     @Query("SELECT new co.com.msservielectrogas.dto.WarrantyStatisticsDTO(w.reason, FUNCTION('DATE_TRUNC', 'month', os.orderServiceDate), COUNT(*)) " +
            "FROM Warranty w " +

@@ -5,16 +5,21 @@ import co.com.msservielectrogas.services.StatisticsService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,8 +30,8 @@ public class StatisticsController {
     private StatisticsService statisticsService;
 
     @GetMapping("/technician-orders")
-    public List<TechnicianStatisticsDTO> getTechnicianStatistics() {
-        return statisticsService.getTechnicianStatistics();
+    public List<TechnicianStatisticsDTO> getTechnicianStatistics(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return statisticsService.getTechnicianStatistics(date);
     }
 
     @GetMapping("/warranty-technician")

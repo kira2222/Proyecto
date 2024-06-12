@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,8 +21,10 @@ public class StatisticsService {
     @Autowired
     private StatisticsRepository statisticsRepository;
 
-    public List<TechnicianStatisticsDTO> getTechnicianStatistics() {
-        return statisticsRepository.getTechnicianStatistics();
+    public List<TechnicianStatisticsDTO> getTechnicianStatistics(LocalDate date) {
+        LocalDateTime startDate = date.atStartOfDay();
+        LocalDateTime endDate = startDate.plusDays(1);
+        return statisticsRepository.getTechnicianStatistics(startDate, endDate);
     }
 
     public List<TechnicianStatisticsDTO> getWarrantyTechnicianStatistics() {
@@ -83,7 +88,7 @@ public class StatisticsService {
             return new ByteArrayInputStream(outputStream.toByteArray());
         }
     }
-
+    
     public List<TechnicianSettlementDTO> getTechnicianSettlements() {
         System.out.println("Fetching technician settlements from the repository");
         List<TechnicianSettlementDTO> settlements = statisticsRepository.getTechnicianSettlements();
